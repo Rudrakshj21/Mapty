@@ -139,7 +139,7 @@ class App {
   // loads map based on user location
   _loadMap(position) {
     // console.log(this); points to App after binding
-    console.log(position);
+    // console.log(position);
     const { latitude } = position.coords;
     const { longitude } = position.coords;
     // console.log(latitude, longitude);
@@ -232,7 +232,6 @@ class App {
       // if workout type is running create running object
       workout = new Running([lat, lng], distance, duration, cadence);
       // // add new running object to workout array
-      // this.#workouts.push(workout);
     }
 
     if (type === 'cycling') {
@@ -252,7 +251,7 @@ class App {
     // add new object to array
     this.#workouts.push(workout);
 
-    // console.log(this.#workouts);
+    // console.log('pushing', this.#workouts);
     // render the workout on the map as marker
 
     this._renderWorkoutMarker(workout);
@@ -263,6 +262,9 @@ class App {
     // hide the form and clear input fields
 
     this._hideForm(); // clearing fields after form is submitted
+
+    // Set local storage to all workouts
+    this._setLocalStorage();
   }
   _renderWorkoutMarker(workout) {
     const coords = workout._coords;
@@ -354,12 +356,18 @@ class App {
     });
   }
   _getTargetElementObject(id) {
-    console.log('in get target');
+    // console.log('in get target');
     // console.log(this.#workouts);
     const targetObject = this.#workouts.filter(workout => {
       return workout._id === id;
     });
     return targetObject;
+  }
+
+  _setLocalStorage() {
+    // console.log(this.#workouts);
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    // console.log(typeof localStorage.getItem('workouts'));
   }
 }
 
